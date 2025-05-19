@@ -1,0 +1,16 @@
+<div class="country">
+  <img [src]="country.flags.svg" alt="Bandera de {{ country.name.common }}" width="50" />
+  {{ country.name.common }} - {{ country.region }}
+
+  <button
+    (click)="toggleFavorite(country.name.common)"
+    [attr.aria-label]="favoritesService.isFavorite(country.name.common)() ? 'Quitar de favoritos' : 'Agregar a favoritos'">
+    @if(favoritesService.isFavorite(country.name.common)()){
+      <span>❤️</span>
+    } @else {
+      <span>🤍</span>
+    }
+  </button>
+
+  <a [routerLink]="['/list/country', country.name.common]">Ver detalle</a>
+</div>

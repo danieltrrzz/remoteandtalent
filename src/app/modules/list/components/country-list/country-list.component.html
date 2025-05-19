@@ -1,0 +1,34 @@
+<section>
+  <div class="filters">
+    <input type="text" [formControl]="searchControl" placeholder="Buscar país..." />
+    <select [formControl]="regionControl">
+      <option value="">Todas las regiones</option>
+      <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+    </select>
+    <button (click)="showFavoritesList()">
+      {{ showFavorites ? 'Quitar filtro de favoritos' : 'Mostrar solo los favoritos' }}
+    </button>
+  </div>
+
+  @if(isLoading){
+    <section>Cargando país...</section>
+  } @else {
+
+    @if(countries.length > 50){
+
+      <cdk-virtual-scroll-viewport itemSize="80" class="viewport">
+        <div *cdkVirtualFor="let country of filteredCountries" class="country">
+          <app-country-scroll [country]="country"></app-country-scroll>
+        </div>
+      </cdk-virtual-scroll-viewport>
+
+    } @else if(countries.length <= 50) {
+      <div class="viewport">
+        @for(country of filteredCountries; track country) {
+          <app-country-scroll [country]="country"></app-country-scroll>
+        }
+      </div>
+    }
+
+  }
+</section>

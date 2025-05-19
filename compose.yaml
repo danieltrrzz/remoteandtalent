@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  remotetalent:
+    image: remotetalent:latest
+    container_name: remotetalent
+    ports:
+      - "80:80"
+    networks:
+      - remotetalent-network
+
+networks:
+  remotetalent-network:
+    driver: bridge

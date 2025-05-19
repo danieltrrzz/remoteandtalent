@@ -1,0 +1,15 @@
+@use 'styles/_variables' as *;
+
+.container {
+  padding: 1rem;
+  font-size: 16px;
+
+  @media (min-width: $mobile) {
+    font-size: 17px;
+  }
+
+  @media (min-width: $tablet) {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,37 @@
+@if(isLoading){
+  <section>Cargando país...</section>
+}
+
+@if(country){
+  <section aria-label="Detalle del país">
+    <h1 tabindex="0">
+      {{ country.name.common }}
+      @if(favoritesService.isFavorite(country.name.common)()){
+        <span>❤️</span>
+      } @else {
+        <span>🤍</span>
+      }
+    </h1>
+    <img [src]="country.flags.svg" alt="Bandera de {{ country.name.common }}" width="120" />
+    <ul>
+      <li><strong>Capital:</strong> {{ country.capital.length ? country.capital[0] : 'N/A' }}</li>
+      <li><strong>Región:</strong> {{ country.region }}</li>
+      <li><strong>Subregión:</strong> {{ country.subregion }}</li>
+      <li><strong>Población:</strong> {{ country.population | number }}</li>
+      <li><strong>Idiomas:</strong> {{ country.languages ? (country.languages | json) : 'N/A' }}</li>
+      @if(country.currencies){
+        <li><strong>Monedas:</strong>
+          <span>{{ country.currencies | json }}</span>
+        </li>
+      }
+    </ul>
+
+    <button (click)="toggleFavorite(country.name.common)">
+      {{ favoritesService.isFavorite(country.name.common)() ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+    </button>
+
+    <br/>
+
+    <a routerLink="/" class="back-link" aria-label="Volver al listado de países">← Volver</a>
+  </section>
+}

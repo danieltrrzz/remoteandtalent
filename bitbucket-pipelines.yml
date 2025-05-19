@@ -1,0 +1,50 @@
+image: node:20
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Build, Lint & Test
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm run lint
+            - npm run test -- --watch=false --code-coverage
+            - npm run build-prod
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy artifacts using SCP
+          deployment: production
+          script:
+            - pipe: atlassian/scp-deploy:0.3.3
+              variables:
+                USER: $USER
+                SERVER: $SERVER
+                EXTRA_ARGS: '-P 3022'
+                REMOTE_PATH: '/var/www/prod/html'
+                LOCAL_PATH: './dist/browser/'
+    feature/bi:
+      - step:
+          name: Build, Lint & Test
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm run lint
+            - npm run test -- --watch=false --code-coverage
+            - npm run build-prod
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy artifacts using SCP
+          deployment: production
+          script:
+            - pipe: atlassian/scp-deploy:0.3.3
+              variables:
+                USER: $USER
+                SERVER: $SERVER
+                EXTRA_ARGS: '-P 3022'
+                REMOTE_PATH: '/var/www/prod/html'
+                LOCAL_PATH: './dist/browser/'
